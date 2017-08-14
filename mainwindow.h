@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "database.h"
 #include<QSqlQuery>
+#include<QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,8 @@ public:
 
 private slots:
     void on_pushButton_submitData_clicked();
+
+    void on_pushButton_clearFields_clicked();
 
 private:
     Ui::MainWindow *ui;
