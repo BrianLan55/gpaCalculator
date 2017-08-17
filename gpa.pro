@@ -26,14 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     database.cpp \
-    deletecourse.cpp
+    deletecourse.cpp \
+    editcourse.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
-    deletecourse.h
+    deletecourse.h \
+    editcourse.h
 
 FORMS    += mainwindow.ui \
-    deletecourse.ui
+    deletecourse.ui \
+    editcourse.ui
 
 RESOURCES += \
     myresources.qrc

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "database.h"
 #include "deletecourse.h"
+#include"editcourse.h"
 
 
 /*********************************
@@ -28,9 +29,10 @@ void MainWindow::displayTableView()
     QSqlQueryModel *preTableModel = new QSqlQueryModel();
     QSqlQuery *preQuery = new QSqlQuery();
 
-    preQuery->exec("SELECT course,units,grade FROM studentData");
+    preQuery->exec("SELECT rowid, course,units,grade FROM studentData");
     preTableModel->setQuery(*preQuery);
     ui->tableView_viewData->setModel(preTableModel);
+    ui->tableView_viewData->verticalHeader()->setVisible(false);
     ui->tableView_viewData->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_viewData->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
@@ -49,68 +51,23 @@ MainWindow::~MainWindow()
  **************************************************************/
 void MainWindow::on_pushButton_submitData_clicked()
 {
-
     QString courseName = ui->lineEdit_courseName->text();
     QString units      = ui->lineEdit_units->text();
     QString grade      = ui->lineEdit_grade->text().toUpper();
     QString numericalGrade;//numerical grade equivenant stored in the database.
 
-    int checkUnits = units.toInt(); //used to check if input is numerical
-
-    bool emptyFields  = courseName.isEmpty() || units.isEmpty() || grade.isEmpty();
-    bool integerUnits = units.toInt();
-    bool invalidUnits = checkUnits < 1 || checkUnits > 5;
-    bool validGrades  = grade == 'A' || grade == 'B' || grade == 'C' || grade == 'D' || grade == 'F';
-
     QSqlQuery enterData;
 
+    bool flag = errorCheck(courseName, units, grade, numericalGrade);
 
-    if(grade =='A')
-    {
-        numericalGrade = '4';
-    }
-    else if(grade == 'B')
-    {
-        numericalGrade = '3';
-    }
-    else if(grade == 'C')
-    {
-        numericalGrade = '2';
-    }
-    else if(grade == 'D')
-    {
-        numericalGrade = '1';
-    }
-    else
-    {
-        numericalGrade = '0';
-    }
-\
 
-    //Begin error checking
-    if(emptyFields)
+    if(flag == true)
     {
-        QMessageBox::critical(this,"Input Error","Please fill in all fields.");
+        enterData.exec("INSERT INTO studentData(course, units, grade,numericalGrade) "
+                       "VALUES ('"+courseName+"', '"+units+"', '"+grade+"','"+numericalGrade+"')");
     }
 
-    //checks for numerical data and units >=1 and units <=5
-    else if(!integerUnits || invalidUnits)
-    {
-         QMessageBox::critical(this,"Input Error","Please enter valid units(Units 0-5).");
-    }
-
-    //checks for valid letter grades
-    else if(!validGrades)
-    {
-         QMessageBox::critical(this,"Input Error","Please enter a valid grade(A,B,C,D or F).");
-    }
-
-    else
-    {
-        enterData.exec("INSERT INTO studentData(course, units, grade,numericalGrade) VALUES ('"+courseName+"', '"+units+"', '"+grade+"','"+numericalGrade+"')");
-        QMessageBox::information(this,"Sucess","Data successfully processed.");
-        displayTableView();
-    }
+    displayTableView();
 }
 
 /*******************************
@@ -128,12 +85,9 @@ void MainWindow::on_pushButton_clearFields_clicked()
  *********************************/
 void MainWindow::on_pushButton_deleteCourse_clicked()
 {
-
-
     deletecourse *removeClass = new deletecourse();
     removeClass->show();
     on_pushButton_refresh_clicked();
-
 }
 
 
@@ -155,7 +109,7 @@ void MainWindow::on_pushButton_calculateGPA_clicked()
     QSqlQuery calcPointsEarned;
     QSqlQuery calcTotalCredits;
 
-    double pointsEarned;  //The number of units received multiplied by the grade received
+    double pointsEarned;  //The number of credits received multiplied by the grade received
     double totalCredits;  //The total number of credits possible
     double calculatedGpa;
 
@@ -180,7 +134,7 @@ void MainWindow::on_pushButton_calculateGPA_clicked()
 
    while(calcPointsEarned.next())
    {
-       pointsEarned = pointsEarned +calcPointsEarned.value(index2).toInt();
+       pointsEarned = pointsEarned + calcPointsEarned.value(index2).toInt();
        index2++;
    }
 
@@ -190,3 +144,98 @@ void MainWindow::on_pushButton_calculateGPA_clicked()
    gpa = QString::number(calculatedGpa, 'f', 2);
    ui->label_gpa->setText(gpa);
 }
+
+/*******************************************
+ *When pushed the user is allowed to edit a*
+ *existing record in the database.         *
+ ******************************************/
+void MainWindow::on_pushButton_editCourse_clicked()
+{
+    editcourse *editCourse = new editcourse();
+    editCourse->show();
+    displayTableView();
+}
+
+/*******************************************
+ *Function takes in a QString containing a *
+ *valid letter grade and calculates its    *
+ * numerical equivelant                    *
+ ******************************************/
+QString calcNumGrade(QString &grade)
+{
+    QString numericalGrade;
+
+    if(grade =='A')
+    {
+        numericalGrade = '4';
+    }
+    else if(grade == 'B')
+    {
+        numericalGrade = '3';
+    }
+    else if(grade == 'C')
+    {
+        numericalGrade = '2';
+    }
+    else if(grade == 'D')
+    {
+        numericalGrade = '1';
+    }
+    else
+    {
+        numericalGrade = '0';
+    }
+
+    return numericalGrade;
+}
+/**********************************************************************************
+ * This function takes in 4 QStrings: 3 by copy and 1 by value                    *
+ * <numericalGrade:empty at the time>, * it checks for valid values, if the values*
+ *  are valid it passes <grade:by copy> to the function                           *
+ * [QString calcNumGrade(QString &string)] where the appropriate numerical grade  *
+ *  is calculated. Finally after that function call ends <numericalGrade>         *
+ * receives a valid value and returns a bool(true) to the main calling function.  *
+ *********************************************************************************/
+bool errorCheck(QString courseName, QString units, QString grade, QString &numericalGrade)
+{
+    QWidget *messageBoxPtr = new QWidget();//used to output a message box to the mainwindow since
+                                           //<errorCheck> is not a function of the class <MainWindow>
+
+    int checkUnits = units.toInt(); //used to check if input is numerical
+
+    bool emptyFields  = courseName.isEmpty() || units.isEmpty() || grade.isEmpty();
+    bool integerUnits = units.toInt();
+    bool invalidUnits = checkUnits < 1 || checkUnits > 5;
+    bool validGrades  = grade == 'A' || grade == 'B' || grade == 'C' || grade == 'D' || grade == 'F';
+    bool flag = false; //used to check if the error checking tests were successful
+
+
+
+    //Begin error checking
+    if(emptyFields)
+    {
+        QMessageBox::critical(messageBoxPtr,"Input Error","Please fill in all fields.");
+    }
+
+    //checks for numerical data and units >=1 and units <=5
+    else if(!integerUnits || invalidUnits)
+    {
+         QMessageBox::critical(messageBoxPtr,"Input Error","Please enter valid units(Units 0-5).");
+    }
+
+    //checks for valid letter grades
+    else if(!validGrades)
+    {
+         QMessageBox::critical(messageBoxPtr,"Input Error","Please enter a valid grade(A,B,C,D or F).");
+    }
+
+    else
+    {
+        numericalGrade = calcNumGrade(grade);
+        flag = true;
+        QMessageBox::information(messageBoxPtr,"Sucess","Data successfully processed.");
+    }
+    return flag;
+}
+
+

@@ -7,6 +7,9 @@
 #include<QMessageBox>
 #include<deletecourse.h>
 
+QString calcNumGrade(QString &grade);
+bool errorCheck(QString,QString,QString,QString&);
+
 namespace Ui {
 class MainWindow;
 }
@@ -30,6 +33,8 @@ private slots:
     void on_pushButton_refresh_clicked();
 
     void on_pushButton_calculateGPA_clicked();
+
+    void on_pushButton_editCourse_clicked();
 
 private:
     Ui::MainWindow *ui;

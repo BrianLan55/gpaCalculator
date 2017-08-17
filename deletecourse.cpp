@@ -23,9 +23,10 @@ void deletecourse::displayTableView()
    QSqlQueryModel *preTableModel = new QSqlQueryModel();
    QSqlQuery *preQuery = new QSqlQuery();
 
-   preQuery->exec("SELECT course,units,grade FROM studentData");
+   preQuery->exec("SELECT rowid, course, units, grade FROM studentData");
    preTableModel->setQuery(*preQuery);
    ui->tableView_viewData->setModel(preTableModel);
+   ui->tableView_viewData->verticalHeader()->setVisible(false);
    ui->tableView_viewData->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
    ui->tableView_viewData->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
