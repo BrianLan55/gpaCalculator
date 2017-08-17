@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     displayTableView();
+    this->setFixedSize(600,400);
 }
 
  /************************************
@@ -51,7 +52,7 @@ MainWindow::~MainWindow()
  **************************************************************/
 void MainWindow::on_pushButton_submitData_clicked()
 {
-    QString courseName = ui->lineEdit_courseName->text();
+    QString courseName = ui->lineEdit_courseName->text().toUpper();
     QString units      = ui->lineEdit_units->text();
     QString grade      = ui->lineEdit_grade->text().toUpper();
     QString numericalGrade;//numerical grade equivenant stored in the database.
@@ -87,7 +88,6 @@ void MainWindow::on_pushButton_deleteCourse_clicked()
 {
     deletecourse *removeClass = new deletecourse();
     removeClass->show();
-    on_pushButton_refresh_clicked();
 }
 
 
@@ -108,41 +108,63 @@ void MainWindow::on_pushButton_calculateGPA_clicked()
 {
     QSqlQuery calcPointsEarned;
     QSqlQuery calcTotalCredits;
+    QSqlQuery validateExistingRecords;
 
     double pointsEarned;  //The number of credits received multiplied by the grade received
     double totalCredits;  //The total number of credits possible
-    double calculatedGpa;
+    double calculatedGpa = 0.0;
 
     int index1 = 0;
     int index2 = 0;
+    int recordCount;
+
+    QFont myFont("Ariel", 10, QFont::Bold);
 
     QString gpa; //The gpa converted from <calculatedGPA>to a QString
                  //in order to print to the qLabel <label_gpa>
 
 
     //Executing queries
+    validateExistingRecords.exec("SELECT COUNT(*) FROM studentData");
     calcTotalCredits.exec("SELECT SUM (units) FROM studentData");
     calcPointsEarned.exec("SELECT SUM(units * numericalGrade) FROM studentData");
 
+    //
+    validateExistingRecords.next();
+    recordCount = validateExistingRecords.value(0).toInt();
 
-    //Begin summing values from the database
-    while( calcTotalCredits.next())
+    //if there are records in the database values are pulled from the database to
+    //calculate the user's gpa, else their gpa is set to 0
+    if(recordCount != 0)
     {
-        totalCredits = totalCredits + calcTotalCredits.value(index1).toInt();
-        index1++;
+        //Begin summing values from the database
+        while( calcTotalCredits.next())
+        {
+            totalCredits = totalCredits + calcTotalCredits.value(index1).toInt();
+            index1++;
+        }
+
+        while(calcPointsEarned.next())
+        {
+            pointsEarned = pointsEarned + calcPointsEarned.value(index2).toInt();
+            index2++;
+        }
+
+        //calculates GPA
+        calculatedGpa = pointsEarned / totalCredits;
+     }//end if(recordCount != 0)
+    else
+    {
+        calculatedGpa = 0.0;
     }
 
-   while(calcPointsEarned.next())
-   {
-       pointsEarned = pointsEarned + calcPointsEarned.value(index2).toInt();
-       index2++;
-   }
-
-   //Calculates the gpa, converts it into a QString and prints to
-   //The qLabel <label_gpa>
-   calculatedGpa = pointsEarned / totalCredits;
+    //Converts the gpa into a QString and prints to
+    //The qLabel <label_gpa>
    gpa = QString::number(calculatedGpa, 'f', 2);
+
+   ui->label_gpa->setFont(myFont);
    ui->label_gpa->setText(gpa);
+
 }
 
 /*******************************************

@@ -6,114 +6,74 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>310</width>
-    <height>202</height>
+    <width>229</width>
+    <height>168</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton_editCourse">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>170</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Edit Course</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>20</y>
-     <width>176</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label_rowID">
-      <property name="text">
-       <string>Row ID</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit_courseID"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>173</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <widget class="QLabel" name="label_course">
-      <property name="text">
-       <string>Course</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit_courseName"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>80</y>
-     <width>164</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
-    <item>
-     <widget class="QLabel" name="label_units">
-      <property name="text">
-       <string>Units</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit_units"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>110</y>
-     <width>170</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_4">
-    <item>
-     <widget class="QLabel" name="label_grade">
-      <property name="text">
-       <string>Grade</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="lineEdit_grade"/>
-    </item>
-   </layout>
-  </widget>
+  <property name="styleSheet">
+   <string notr="true">QDialog
+{
+	background-color:qlineargradient(spread:pad, x1:1, y1:0.744227, x2:1, y2:0, stop:0 rgba(255, 122, 55, 255), stop:1 rgba(255, 255, 255, 255));
+};</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label_rowID">
+     <property name="text">
+      <string>Row ID</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLineEdit" name="lineEdit_courseID"/>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="label_course">
+     <property name="text">
+      <string>Course</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="lineEdit_courseName"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_units">
+     <property name="text">
+      <string>Units</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QLineEdit" name="lineEdit_units"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_grade">
+     <property name="text">
+      <string>Grade</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="lineEdit_grade"/>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QPushButton" name="pushButton_editCourse">
+     <property name="text">
+      <string>Edit Course</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

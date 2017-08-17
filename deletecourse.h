@@ -18,11 +18,12 @@ class deletecourse : public QDialog
 
 public:
     explicit deletecourse(QWidget *parent = 0);
-    void displayTableView();
     ~deletecourse();
 
 private slots:
     void on_pushButton_deleteCourse_clicked();
+
+
 
 private:
     Ui::deletecourse *ui;

@@ -7,7 +7,7 @@ deletecourse::deletecourse(QWidget *parent) :
     ui(new Ui::deletecourse)
 {
     ui->setupUi(this);
-    displayTableView();
+    this->setFixedSize(175,150);
 }
 
 deletecourse::~deletecourse()
@@ -15,32 +15,25 @@ deletecourse::~deletecourse()
     delete ui;
 }
 
-/************************************
- * Displays the tableview of classes*
- ***********************************/
-void deletecourse::displayTableView()
-{
-   QSqlQueryModel *preTableModel = new QSqlQueryModel();
-   QSqlQuery *preQuery = new QSqlQuery();
-
-   preQuery->exec("SELECT rowid, course, units, grade FROM studentData");
-   preTableModel->setQuery(*preQuery);
-   ui->tableView_viewData->setModel(preTableModel);
-   ui->tableView_viewData->verticalHeader()->setVisible(false);
-   ui->tableView_viewData->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-   ui->tableView_viewData->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-}
-
-
 /**********************************
  * Deletes a selected record from *
- * the database by course name    *
+ * the database by course row ID  *
  *********************************/
 void deletecourse::on_pushButton_deleteCourse_clicked()
 {
     QString selectedRecord = ui->lineEdit_rowNumber->text();
     QSqlQuery deleteRecord;
+    bool isRowNum = selectedRecord.toInt();
 
-    deleteRecord.exec("DELETE FROM studentData WHERE course='"+selectedRecord+"'");
-    displayTableView();
+
+    if(!isRowNum)
+    {
+        QMessageBox::critical(this,"Error","Please enter a numerical row number.");
+    }
+    else
+    {
+        deleteRecord.exec("DELETE FROM studentData WHERE ROWID='"+selectedRecord+"'");
+    }
+
+    ui->lineEdit_rowNumber->clear();
 }
