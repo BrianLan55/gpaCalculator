@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     displayTableView();
-    this->setFixedSize(600,400);
+    this->setFixedSize(520,500);
 }
 
  /************************************
@@ -98,6 +98,8 @@ void MainWindow::on_pushButton_deleteCourse_clicked()
 void MainWindow::on_pushButton_refresh_clicked()
 {
     displayTableView();
+
+
 }
 
 /********************************************

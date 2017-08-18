@@ -40,3 +40,5 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     myresources.qrc
+
+DISTFILES +=

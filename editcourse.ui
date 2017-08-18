@@ -22,7 +22,7 @@
   <property name="styleSheet">
    <string notr="true">QDialog
 {
-	background-color:qlineargradient(spread:pad, x1:1, y1:0.744227, x2:1, y2:0, stop:0 rgba(255, 122, 55, 255), stop:1 rgba(255, 255, 255, 255));
+	background-color:qlineargradient(spread:pad, x1:1, y1:0.932, x2:1, y2:0, stop:0 rgba(55, 123, 255, 255), stop:1 rgba(255, 255, 255, 255))
 };</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -34,7 +34,14 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLineEdit" name="lineEdit_courseID"/>
+    <widget class="QLineEdit" name="lineEdit_courseID">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit
+{
+	background-color:rgb(53, 190, 170);
+};</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="QLabel" name="label_course">
@@ -44,7 +51,14 @@
     </widget>
    </item>
    <item row="1" column="2">
-    <widget class="QLineEdit" name="lineEdit_courseName"/>
+    <widget class="QLineEdit" name="lineEdit_courseName">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit
+{
+	background-color:rgb(53, 190, 170);
+};</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_units">
@@ -54,7 +68,14 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="2">
-    <widget class="QLineEdit" name="lineEdit_units"/>
+    <widget class="QLineEdit" name="lineEdit_units">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit
+{
+	background-color:rgb(53, 190, 170);
+};</string>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_grade">
@@ -64,10 +85,23 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QLineEdit" name="lineEdit_grade"/>
+    <widget class="QLineEdit" name="lineEdit_grade">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit
+{
+	background-color:rgb(53, 190, 170);
+};</string>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0" colspan="3">
     <widget class="QPushButton" name="pushButton_editCourse">
+     <property name="styleSheet">
+      <string notr="true">QMessageBox
+{
+	background-color:rgb(53, 190, 170);
+};</string>
+     </property>
      <property name="text">
       <string>Edit Course</string>
      </property>
