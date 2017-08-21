@@ -6,8 +6,9 @@
 #include<QMessageBox>
 #include "mainwindow.h"
 
-namespace Ui {
-class editcourse;
+namespace Ui
+{
+    class editcourse;
 }
 
 class editcourse : public QDialog

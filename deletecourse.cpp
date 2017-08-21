@@ -23,16 +23,30 @@ void deletecourse::on_pushButton_deleteCourse_clicked()
 {
     QString selectedRecord = ui->lineEdit_rowNumber->text();
     QSqlQuery deleteRecord;
-    bool isRowNum = selectedRecord.toInt();
 
+    QString queryRecordRow;
+    bool isNumericalRow = selectedRecord.toInt();
 
-    if(!isRowNum)
+    //checks for numerical user input
+    if(!isNumericalRow)
     {
         QMessageBox::critical(this,"Error","Please enter a numerical row number.");
     }
+
+    //checks to see if the record the user searched for exists
+    deleteRecord.exec("SELECT ROWID FROM studentData WHERE ROWID ='"+selectedRecord+"'");
+    deleteRecord.next();
+
+    queryRecordRow = deleteRecord.value(0).toString();
+
+    if(queryRecordRow == selectedRecord)
+    {
+        QMessageBox::information(this,"Deletion Successful","Record successfully found and deleted.");
+        deleteRecord.exec("DELETE FROM studentData WHERE ROWID='"+selectedRecord+"'");
+    }
     else
     {
-        deleteRecord.exec("DELETE FROM studentData WHERE ROWID='"+selectedRecord+"'");
+        QMessageBox::critical(this,"Search Error","The record you are searching for was not found.");
     }
 
     ui->lineEdit_rowNumber->clear();

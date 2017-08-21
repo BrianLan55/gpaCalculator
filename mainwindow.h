@@ -10,8 +10,9 @@
 QString calcNumGrade(QString &grade);
 bool errorCheck(QString,QString,QString,QString&);
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow

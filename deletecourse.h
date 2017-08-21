@@ -8,8 +8,9 @@
 
 
 
-namespace Ui {
-class deletecourse;
+namespace Ui
+{
+    class deletecourse;
 }
 
 class deletecourse : public QDialog
